@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Conversation Hearts</title>
+<!--had to set absolute positions for all elements in order to make it so the text could be displayed on top of the heart-->
+<style>
+  canvas {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    border: 1px solid black;
+  }
+  #colorLabel {
+    position: absolute;
+    top: 210px;
+  }
+  #colorPicker {
+    position: absolute;
+    top: 210px;
+    left: 120px;
+  }
+  #textWrapper {
+    position: absolute;
+    top: 45px;
+    left: 50px;
+    z-index: 1;
+    font-size: 30px;
+  }
+  #heartLabel {
+    position: absolute;
+    top: 240px;
+  }
+  #heartText {
+    position: absolute;
+    top: 240px;
+    left: 210px;
+  }
+</style>
+</head>
+<body>
+  <div id="wrapper">
+    <div>
+      <canvas id="heartCanvas"></canvas>
+    </div>
+    <div id="textWrapper">
+      <p id="heartMessage">Hot Stuff</p>
+    </div>
+  </div>
+<br>
+<label for="colorPicker" id="colorLabel">Choose a color:</label>
+<input type="color" id="colorPicker" value="#ff0000">
+<label for="heartText" id="heartLabel">Choose a conversation starter:</label>
+<select id="heartText" name="heartText">
+  <option value="Hot Stuff">Hot Stuff</option>
+  <option value="Be Mine">Be Mine</option>
+  <option value="XOXO">XOXO</option>
+  <option value="Cutie Pie">Cutie Pie</option>
+  <option value="True Love">True Love</option>
+  <option value="Be Cool">Be Cool</option>
+  <option value="Kiss Me">Kiss Me</option>
+  <option value="Sweet Heart">Sweet Heart</option>
+  <option value=""></option>
+</select>
+
+<script>
+  const canvas = document.getElementById('heartCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Set canvas size to match the heart dimensions
+  const width = 200;
+  const height = 190;
+  canvas.width = width;
+  canvas.height = height;
+
+  // I used the HTML canvas element to draw a heart because I learned about the canvas element in a previous project but didn't use it since it didn't solve the problem effectively
+  function drawHeart(color) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(width / 2, height / 5);
+    ctx.bezierCurveTo(width / 2, 0, 0, 0, 0, height / 5);
+    ctx.bezierCurveTo(0, height / 2, width / 2, height, width / 2, height);
+    ctx.bezierCurveTo(width / 2, height, width, height / 2, width, height / 5);
+    ctx.bezierCurveTo(width, 0, width / 2, 0, width / 2, height / 5);
+    ctx.fill();
+    ctx.closePath();
+  }
+  // colorPicker changes the color of the heart
+  const colorPicker = document.getElementById('colorPicker');
+  //heartText is the id for the select element, this allows the heartMessage to be displayed
+  const heartText = document.getElementById('heartText');
+  //heartMessage is the text that is shown on the heart in the paragraph element
+  const heartMessage = document.getElementById('heartMessage');
+
+  colorPicker.addEventListener('input', function() {
+    drawHeart(colorPicker.value);
+  });
+
+  heartText.addEventListener('change', function() {
+    heartMessage.textContent = heartText.value;
+  });
+
+  drawHeart(colorPicker.value);
+</script>
+</body>
+</html>
